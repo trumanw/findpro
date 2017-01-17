@@ -17,36 +17,38 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/golang/glog"
 	"github.com/spf13/cobra"
+
+	srv "github.com/trumanw/findpro/server"
 )
+
+// Flags can be setup by command or os.ENV
+var host string
+var port int
+var etcdns []string
 
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Start findpro server node",
+	Long: `Launch the gRPC server of the findpro and register itself to etcd cluster.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// TODO: Work your own magic here
-		fmt.Println("server called")
+		flag.Parse()
+		defer glog.Flush()
+
+		if err := srv.Run(host, port, etcdns); err != nil {
+			glog.Fatal(err)
+		}
 	},
 }
 
+// init adds the serverCmd to RoodCmd
 func init() {
 	RootCmd.AddCommand(serverCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// serverCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// serverCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
+	// Configuration settings.
+	serverCmd.Flags().StringVarP(&host, "host", "", "", "host of the gRPC server.")
+	serverCmd.Flags().IntVarP(&port, "port", "", 9090, "port of the gRPC server.")
+	serverCmd.Flags().StringArrayVar(&etcdns, "etcdns", []string{"http://localhost:2379"}, "endpoints of etcd cluster.")
 }
