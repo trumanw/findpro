@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package pb;
+
+message Result {
+    string message = 1;
+    bool success = 2;
+    string location = 3;
+}

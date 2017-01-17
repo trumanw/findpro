@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package pb;
+
+// gRPC gateway imports
+import "google/api/annotations.proto";
+import "pb/result.proto";
+
+message Fingerprint {
+    // Router is nested type of WiFi fingerprints
+    message Router {
+        string mac = 1;
+        int64 rssi = 2;
+    }
+
+    string group = 1;
+    string username = 2;
+    string location = 3;
+    uint64 timestamp = 4;
+    Router wifi_fingerprints = 6;
+}
+
+service FingerprintService {
+    rpc Learn(Fingerprint) returns (Result) {
+        // Add one fingerprint to the training set
+        option (google.api.http) = {
+            post: "/learn"
+            body: "*"
+        };
+    }
+
+    rpc Track(Fingerprint) returns (Result) {
+        // Get current location through the uploaded Fingerprint
+        option (google.api.http) = {
+            post: "/track"
+            body: "*"
+        };
+    }
+}
