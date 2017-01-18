@@ -20,6 +20,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Parameters to setup a proxy service
+var etcdns []string
+
 // configCmd represents the config command
 var configCmd = &cobra.Command{
 	Use:   "config",
@@ -36,17 +39,10 @@ to quickly create a Cobra application.`,
 	},
 }
 
+// init adds the configCmd to RootCmd
 func init() {
 	RootCmd.AddCommand(configCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// configCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// configCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-
+	// Configuration settings.
+	serverCmd.Flags().StringArrayVar(&etcdns, "etcdns", []string{"http://localhost:2379"}, "endpoints of etcd cluster.")
 }

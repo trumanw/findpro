@@ -19,7 +19,6 @@ func (s *FingerprintGRPCServer) Learn(ctx context.Context, fingerprint *pb.Finge
     learningResult := &pb.Result{
         Message: "Could not learn.",
         Success: false,
-        Location: nil,
     }
     return learningResult, nil
 }
@@ -29,7 +28,6 @@ func (s *FingerprintGRPCServer) Track(ctx context.Context, fingerprint *pb.Finge
     trackingResult := &pb.Result{
         Message: "Could not track.",
         Success: false,
-        Location: nil,
     }
     return trackingResult, nil
 }

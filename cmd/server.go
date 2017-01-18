@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"fmt"
+	"flag"
 
 	"github.com/golang/glog"
 	"github.com/spf13/cobra"
@@ -23,15 +23,14 @@ import (
 	srv "github.com/trumanw/findpro/server"
 )
 
-// Flags can be setup by command or os.ENV
+// Parameters to setup a gRPC server
 var host string
 var port int
-var etcdns []string
 
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Start findpro server node",
+	Short: "Start findpro gRPC server.",
 	Long: `Launch the gRPC server of the findpro and register itself to etcd cluster.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		flag.Parse()
@@ -43,12 +42,11 @@ var serverCmd = &cobra.Command{
 	},
 }
 
-// init adds the serverCmd to RoodCmd
+// init adds the serverCmd to RootCmd
 func init() {
 	RootCmd.AddCommand(serverCmd)
 
 	// Configuration settings.
 	serverCmd.Flags().StringVarP(&host, "host", "", "", "host of the gRPC server.")
 	serverCmd.Flags().IntVarP(&port, "port", "", 9090, "port of the gRPC server.")
-	serverCmd.Flags().StringArrayVar(&etcdns, "etcdns", []string{"http://localhost:2379"}, "endpoints of etcd cluster.")
 }
