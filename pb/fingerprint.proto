@@ -17,7 +17,7 @@ message Fingerprint {
     string username = 2;
     string location = 3;
     uint64 timestamp = 4;
-    Router wifi_fingerprints = 6;
+    repeated Router wifi_fingerprints = 6;
 }
 
 service FingerprintService {

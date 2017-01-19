@@ -43,7 +43,7 @@ install:
 server:
 	./build/findpro server
 
-gateway:
-	./build/findpro gateway
+proxy:
+	./build/findpro proxy
 
 .PHONY: server gateway protoc build install pb
