@@ -17,6 +17,31 @@ import (
 	"google.golang.org/grpc/naming"
 )
 
+// RuntimeArgs contains all runtime
+// arguments available
+var RuntimeArgs struct {
+	RFPort            string
+	FilterMacFile     string
+	ExternalIP        string
+	Port              string
+	ServerCRT         string
+	ServerKey         string
+	SourcePath        string
+	Socket            string
+	Cwd               string
+	MqttServer        string
+	MqttAdmin         string
+	MosquittoPID      string
+	MqttAdminPassword string
+	Dump              string
+	Message           string
+	Mqtt              bool
+	Svm               bool
+	RandomForests     bool
+	Filtering         bool
+	FilterMacs        map[string]bool
+}
+
 // Run is the main function of gRPC server
 func Run(host string, port int, etcdns []string) error {
     // Bind gRPC server to specific host and port
